@@ -1,73 +1,72 @@
-# TVS 订阅源（猫影视 Node.js 订阅包 · 64 个实测可用源）
+# TVS 订阅源（猫影视 Node.js 订阅包 · 38 个实测可播放源）
 
-TVS(TVBox-tvs) 只解析**猫影视兼容的 Node.js 订阅包**，不认 TVBox JSON。
-本包基于上游 96 个内置源，三级探活后**剔除 32 个死站，保留 64 个可用**。
+TVS 只认**猫影视兼容的 Node.js 订阅包**，不认 TVBox JSON。
+上游 96 个源，逐级实测后剔除 58 个，保留 **38 个能直出播放直链的**。
 
-## 订阅地址（TVS「订阅」页填这个，国内直连不用代理）
+## 订阅地址（TVS「订阅」页，国内直连不用代理）
 
-**主**（jsDelivr，实测 200 / 2.8s / md5 一致）
+**主 —— Gitee（实测 md5 200/5.4s，index.js 6.6MB/4.3s，md5 一致）**
+```
+https://gitee.com/dale003/tvs-source/raw/main/cat/index.js.md5
+```
+
+**备 —— GitHub 经 jsDelivr（实测 1.9s，但 jsDelivr 不服务 .md5 后缀）**
 ```
 https://cdn.jsdelivr.net/gh/daletyler1737/tvs-source@main/cat/index.js
 ```
 
-**备 1**（带 md5 自动校验）
-```
-https://gh-proxy.com/https://raw.githubusercontent.com/daletyler1737/tvs-source/main/cat/index.js.md5
-```
-
-**备 2**（局域网 Forgejo，同 Wi-Fi 0.6s）
+**备 —— 局域网 Forgejo（同 Wi-Fi 0.6s，最稳）**
 ```
 http://192.168.1.127:3010/dale003/tvs-source/raw/branch/main/cat/index.js.md5
 ```
 
-## 保留的 64 个源（home→category→detail 三级全过）
+## 判定标准（比"首页有分类"严得多）
 
-- **4K**：玩偶 / 木偶 / 快映 / 闪电 / 蜡笔 / 花卷 / 立播 / 原盘 / 剧透 / 移动
-- **秒播**：韩剧 / 瓜子 / 独播 / 悦悦 / 文采 / 师兄 / 粉猪 / 追剧 / 柚子 / 柠檬 / 太奇 / 零七 / 黄人 / 枫叶4K / 热播 / 波波
-- **采集**：天堂
-- **短剧漫剧**：小龙 / 小猫 / 小红 / 小喜 / 小马 / 星芽 / 好看 / 短剧小猫 / 小薇
-- **动漫**：共和 / 花子 / 番剧 / 西番
-- **直播**：虎牙 / 哔哩 / 斗鱼
-- **听书**：爱阅听 / 河马 / 红果
-- **少儿**：兔兔 / 宝宝爱看 / 贝瓦
-- **课堂**：少儿教育 / 小学 / 初中 / 高中
-- **音乐**：唱听 / 糖豆 / 爱音乐 / 网易云 / 酷我 / 酷狗
-- **体育**：瓜子 / 咖啡 / 飞球 / 看球通 / WWE
-- **B站**：影视 / 戏曲 / 演唱会 / 哔哩哔哩
-- **元数据**：豆瓣 / 更新日历 / 配置中心 / 我的网盘
+`home` → `category` → `detail` → **`play`**，四级全过且 play 返回 `parse:0` 的
+`http` 直链（m3u8/mp4/mp3）才算可用。
 
-## 已剔除的 32 个（实测失效）
+上游原版 96 个源里：
+- 16 个 home 就空返回
+- 1 个 category 空
+- 1 个 detail 空
+- **24 个能出片单但 play 报错**（主要是 4K 类源走夸克网盘，未配 Cookie 就
+  `还没有配置夸克 Cookie，请先去配置中心登录夸克`；B 站类需 Cookie）
 
-duoduo · huban · qwmkv · pianku · woniu4k · pan123ziyuan · ikanbot · yiyingshi ·
-appv7xianyu · appv7xiaoningmeng · appv7xiaoshizi · push · sokaka ·
-soaiqupanshe · soaihaiyin · soaipansoo · manjuhongguo · guanying · mypan ·
-animehuazi · animemodu · musicailunhui · musicaikuwo · musicai163 ·
-sportaiguazi · sportaikanqiu · livetovod · baseset · gengxin · douban(仅元数据) ·
-fake115share · duanjuqimiao(部分)
+## 保留的 38 个（全部实测直出直链）
 
-## 直播源（另一套，走 TVS 直播页导入，不在订阅框）
+| 类别 | 源 |
+|---|---|
+| 影视 | 立播 / 瓜子 / 天堂采集 / 文采 / 独播 / 热播 / 波波 / 韩剧秒播 / 枫叶4K / 移动4K |
+| 秒播 | 大师兄 / 粉猪 / 追剧达人 / 柚子 / 太奇 / 零七 / 黄人 |
+| 短剧漫剧 | 漫剧小猫 / 漫剧小喜 / 短漫小马 / 短剧星芽 / 短剧好看 / 短剧小猫 |
+| 动漫 | 共和动漫 / 动漫次元城 / 动漫西番 |
+| 直播 | 虎牙 / 哔哩直播 / 斗鱼 |
+| 听书 | 爱阅听 / 河马听书 |
+| 少儿 | 兔兔 / 宝宝爱看 |
+| 音乐 | 爱梨园 / 蜻蜓FM / 糖豆 |
+| 体育 | 看球通 / WWE |
 
-```
-https://cdn.jsdelivr.net/gh/daletyler1737/tvs-source@main/live.m3u
-```
-303 个实测存活频道，11 分组，全带台标。
+## 已剔除（58 个，实测失效）
+
+4K 类（夸克 Cookie 依赖）：玩偶/木偶/快映/闪电/蜡笔/花卷/剧透/原盘
+B站类（Cookie 依赖）：B站影视/戏曲/演唱会/哔哩哔哩/番剧
+其他失效：豆瓣/更新日历/配置中心/我的网盘/爱看采集/伊影/咸鱼/柠檬/柿子/
+duoduo/huban/qwmkv/pianku/woniu4k/pan123ziyuan/ikanbot/manjuhongguo/guanying/
+animehuazi/animemodu/musicailunhui/kuwo/163/sportaiguazi/sportaikanqiu/livetovod/
+sportaikafei/sportaifeiqiu/bilixiqu/musicaiwy/musicaikg/musicaikuwoa/bookhongguo/
+childrenaibeiwa/duanjuweiguan/少儿教育/小学课堂/初中课堂/高中教育
 
 ## 实现方式
 
-`cat/index.js` = 上游 bundle（6.6 MB，内嵌 CatVodSpider 全栈）+ 一行过滤：
+上游 bundle（6.6MB，内嵌 CatVodSpider 全栈）+ 一行白名单过滤，
+spider 本体一字未动，被过滤的源仍正常 init（只是不显示）：
 
 ```js
-n = n.filter(z => GOOD.includes(z.meta.key));   // GOOD = 64 个实测通过的 key
+const __WL = ["libvio","guazi",...];           // 38 个实测 key
+const __ok = k => __WL.indexOf(k) >= 0;
 ```
 
-spider 本体一字未动，只过滤注册表。上游改版后重跑探活脚本重新生成。
+## 维护
 
-## 探活方法
-
-本地 node 起 bundle（stub 两个宿主符号 `catServerFactory` / `catDartServerPort`），
-对每个源打 `POST /spider/{key}/3/{home,category,detail}`，三级全过才算可用。
-
-## 注意
-
-- `.md5` 后缀 jsDelivr 不服务（403），只能走 gh-proxy / Forgejo
-- 上游原版（96 源含死站）：`https://9280.kstore.vip/cat/index.js.md5`
+`probe-play.js`（四级探活脚本）→ 改 `__WL` → 重算 md5 → 推 Gitee/GitHub/Forgejo。
+md5 必须与实际 index.js 完全一致，否则 App 拒绝加载。
